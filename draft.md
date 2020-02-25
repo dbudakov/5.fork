@@ -25,4 +25,5 @@ PROC/SYSRQ-TRIGGER - общение с ядром
 ll /proc/[$PID]/exe|awk '{print $11}'                  # выведет бинарник для $PID  
 grep State /proc/[$PID]/status|awk '{print $2" "$3}'   # выведет состояние процесса
 head /proc/[$PID]/shed|awk '{print $1}'                # выведет имя программы для пустых 'exe'
+stat /proc/[$PID]|awk '/Modify/{print $2" "$3}'|cut -d: -f 1-2 # выведет время создания PID'a
 ```
