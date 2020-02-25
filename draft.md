@@ -11,9 +11,10 @@ maps, statm, и mem - информация о памяти процесса
 stat, status - состояние процесса
 ```
 advanced  
-/PROC/DISKSTATS - Статистика ввода и вывода на блочные устройства  
-/PROC/LOADAVG - load average  
+/PROC/DISKSTATS #cтатистика ввода и вывода на блочные устройства  
+/PROC/LOADAVG   #load average  
 /PROC/UPTIME
+/proc/PID/task  #каталог, содержащий жесткие ссылки на любые задачи, которые были начаты этим процессом.
 
 interest  
 /PROC/KCORE - слепок памяти  
