@@ -38,5 +38,3 @@ else:
 #print "wait returned, pid = %d, status = %d" % (pid, status)
 
 ```
-
-```
