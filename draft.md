@@ -22,6 +22,7 @@ PROC/SYSRQ-TRIGGER - общение с ядром
 
 #### рабочие наброски   
 ```
-ll /proc/[$PID]/exe|awk '{print $11}' - выведет бинарник для $PID  
+ll /proc/[$PID]/exe|awk '{print $11}'                  # выведет бинарник для $PID  
 grep State /proc/[$PID]/status|awk '{print $2" "$3}'   # выведет состояние процесса
+head /proc/[$PID]/shed|awk '{print $1}'                # выведет имя программы для пустых 'exe'
 ```
