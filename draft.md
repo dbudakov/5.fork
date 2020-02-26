@@ -31,3 +31,4 @@ stat /proc/[$PID]|awk '/Modify/{print $2" "$3}'|cut -d: -f 1-2 # выведет 
 #ll /proc/[$PID]/exe|awk '{print $11}'                  # выведет бинарник для $PID  
 #head /proc/[$PID]/shed|awk '{print $1}'                # выведет имя программы для пустых 'exe'
 ```
+
