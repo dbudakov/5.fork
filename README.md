@@ -7,9 +7,12 @@ for i in $(ls /proc|grep ^[0-9]|sort -n);do echo -e "$i\t${STATE[$i]}\t${NAME[$i
 ```
 три строчки, в первой собираем информацию о каждом процессе в массивы
 ```shell
-for i in $(ls /proc|grep ^[0-9]);do NAME[$i]=$(head -1 -q /proc/$i/sched 2>/dev/null|
-sed -e 's/\ (/\ /g'|sed -e 's/,/\ /g'|awk '{print $1}'); STATE[$i]=$(grep State /proc/$i/status 2>/dev/null |
-awk '{print $2}');TIME[$i]=$(stat /proc/$i 2>/dev/null|awk '/Modify/{print $2" "$3}'|cut -d: -f 1-2);done
+for i in $(ls /proc|grep ^[0-9]);
+do NAME[$i]=$(head -1 -q /proc/$i/sched 2>/dev/null|
+sed -e 's/\ (/\ /g'|sed -e 's/,/\ /g'|awk '{print $1}');
+STATE[$i]=$(grep State /proc/$i/status 2>/dev/null |
+awk '{print $2}');TIME[$i]=$(stat /proc/$i 2>/dev/null|
+awk '/Modify/{print $2" "$3}'|cut -d: -f 1-2);done
 
 #description:
 for i in $(ls /proc|grep ^[0-9])  # запускаем цикл по for для каждой строки из /proc
