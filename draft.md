@@ -40,6 +40,8 @@ for i in ${array[*]};do STATE[$i]=$(grep State /proc/$i/status 2>/dev/null |awk 
 запись в массив времени по ПИД
 for i in ${array[*]};do TIME[$i]=$(stat /proc/$i 2>/dev/null|awk '/Modify/{print $2" "$3}'|cut -d: -f 1-2 );done
 
+вывод 
+for i in ${array[*]};do echo -e "${array[$i]}\t${STATE[$i]}\t${NAME[$i]}\t${TIME[$i]}";done|column -t
 
 
 
