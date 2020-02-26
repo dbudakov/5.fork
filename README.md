@@ -1,4 +1,4 @@
-### script 
+### script custom `ps ax`
 ```shell
 #!/bin/bash
 head -1 -q 2>/dev/null $(find /proc/*/sched 2>/dev/null)|sed -e 's/\ (/\ /g'|sed -e 's/,/\ /g'|awk '{print $2}'>PID
