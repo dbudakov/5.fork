@@ -34,6 +34,10 @@ for i in $(cat PID); do array[$i]=$(head -1 -q 2>/dev/null $(find /proc/$i/sched
 запись в массив имя по ПИД
 for i in ${array[*]};do NAME[$i]=$(head -1 -q 2>/dev/null $(find /proc/$i/sched 2>/dev/null)|sed -e 's/\ (/\ /g'|sed -e 's/,/\ /g'|awk '{print $1}');done
 
+запись в массив состояние по ПИД
+[root@localhost dbudakov]# for i in ${array[*]};do STATE[$i]=$(grep State /proc/$i/status 2>/dev/null |awk '{print $2" "$3}');done
+
+
 
 
 #ll /proc/[$PID]/exe|awk '{print $11}'                  # выведет бинарник для $PID  
