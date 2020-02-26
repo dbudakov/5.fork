@@ -35,7 +35,11 @@ for i in $(cat PID); do array[$i]=$(head -1 -q 2>/dev/null $(find /proc/$i/sched
 for i in ${array[*]};do NAME[$i]=$(head -1 -q 2>/dev/null $(find /proc/$i/sched 2>/dev/null)|sed -e 's/\ (/\ /g'|sed -e 's/,/\ /g'|awk '{print $1}');done
 
 запись в массив состояние по ПИД
-[root@localhost dbudakov]# for i in ${array[*]};do STATE[$i]=$(grep State /proc/$i/status 2>/dev/null |awk '{print $2" "$3}');done
+for i in ${array[*]};do STATE[$i]=$(grep State /proc/$i/status 2>/dev/null |awk '{print $2" "$3}');done
+
+запись в массив времени по ПИД
+for i in ${array[*]};do TIME[$i]=$(stat /proc/$i 2>/dev/null|awk '/Modify/{print $2" "$3}'|cut -d: -f 1-2 );done
+
 
 
 
