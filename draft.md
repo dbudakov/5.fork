@@ -24,8 +24,12 @@ PROC/SYSRQ-TRIGGER - общение с ядром
 ```
 PID and NAME
 head -1 -q 2>/dev/null $(find /proc/*/sched 2>/dev/null)|sed -e 's/\ (/\ /g'|sed -e 's/,/\ /g'
-grep State /proc/[$PID]/status|awk '{print $2" "$3}'   # выведет состояние процесса
-stat /proc/[$PID]|awk '/Modify/{print $2" "$3}'|cut -d: -f 1-2 # выведет время создания PID'a
+grep State /proc/*/status|awk '{print $2" "$3}'   # выведет состояние процесса
+stat /proc/*|awk '/Modify/{print $2" "$3}'|cut -d: -f 1-2 # выведет время создания PID'a
+
+запись в массив элемент каждый пид
+head -1 -q 2>/dev/null $(find /proc/*/sched 2>/dev/null)|sed -e 's/\ (/\ /g'|sed -e 's/,/\ /g'|awk '{print $2}'>PID
+for i in $(cat PID); do array[$i]=$(head -1 -q 2>/dev/null $(find /proc/$i/sched 2>/dev/null)|sed -e 's/\ (/\ /g'|sed -e 's/,/\ /g'|awk '{print $2}');done
 
 
 #ll /proc/[$PID]/exe|awk '{print $11}'                  # выведет бинарник для $PID  
