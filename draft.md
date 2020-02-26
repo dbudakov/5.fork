@@ -1,3 +1,10 @@
+##### script
+```
+head -1 -q 2>/dev/null $(find /proc/*/sched 2>/dev/null)|sed -e 's/\ (/\ /g'|sed -e 's/,/\ /g'|awk '{print $2}'>PID
+for i in $(cat PID); do array[$i]=$(head -1 -q /proc/$i/sched 2>/dev/null|sed -e 's/\ (/\ /g'|sed -e 's/,/\ /g'|awk '{print $2}'; NAME[$i]=$(head -1 -q /proc/$i/sched 2>/dev/null)|sed -e 's/\ (/\ /g'|sed -e 's/,/\ /g'|awk '{print $1}'); STATE[$i]=$(grep State /proc/$i/status 2>/dev/null |awk '{print $2}');done
+for i in ${array[*]};do echo -e "${array[$i]}\t${STATE[$i]}\t${NAME[$i]}\t${TIME[$i]}";done|column -t
+```
+
 ps ax
 /PROC/[PID_number]/
 ```
@@ -26,12 +33,6 @@ PID and NAME
 head -1 -q 2>/dev/null $(find /proc/*/sched 2>/dev/null)|sed -e 's/\ (/\ /g'|sed -e 's/,/\ /g'
 grep State /proc/*/status|awk '{print $2" "$3}'   # выведет состояние процесса
 stat /proc/*|awk '/Modify/{print $2" "$3}'|cut -d: -f 1-2 # выведет время создания PID'a
-```
-#####script
-```
-head -1 -q 2>/dev/null $(find /proc/*/sched 2>/dev/null)|sed -e 's/\ (/\ /g'|sed -e 's/,/\ /g'|awk '{print $2}'>PID
-for i in $(cat PID); do array[$i]=$(head -1 -q /proc/$i/sched 2>/dev/null|sed -e 's/\ (/\ /g'|sed -e 's/,/\ /g'|awk '{print $2}'; NAME[$i]=$(head -1 -q /proc/$i/sched 2>/dev/null)|sed -e 's/\ (/\ /g'|sed -e 's/,/\ /g'|awk '{print $1}'); STATE[$i]=$(grep State /proc/$i/status 2>/dev/null |awk '{print $2}');done
-for i in ${array[*]};do echo -e "${array[$i]}\t${STATE[$i]}\t${NAME[$i]}\t${TIME[$i]}";done|column -t
 ```
 ```
 #запись в массив имя по ПИД
