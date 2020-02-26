@@ -1,7 +1,7 @@
 ### script 
 ```shell
 #!/bin/bash
-#custom `ps ax`
+#custom `ps ax``
 for i in $(ls /proc|grep ^[0-9]);do NAME[$i]=$(head -1 -q /proc/$i/sched 2>/dev/null|sed -e 's/\ (/\ /g'|sed -e 's/,/\ /g'|awk '{print $1}'); STATE[$i]=$(grep State /proc/$i/status 2>/dev/null |awk '{print $2}');TIME[$i]=$(stat /proc/$i 2>/dev/null|awk '/Modify/{print $2" "$3}'|cut -d: -f 1-2);done
 for i in $(ls /proc|grep ^[0-9]|sort -n);do echo -e "$i\t${STATE[$i]}\t${NAME[$i]}\t${TIME[$i]}";done|awk 'BEGIN {print "PID STATE NAME UPTIME"}/[00-23]\:[00-59]/{print}'|column -t
 ```
