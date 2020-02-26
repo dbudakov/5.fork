@@ -36,16 +36,19 @@ done                  # cимволизирует об окончании опе
 ```
 выводим
 ```shell
-for i in $(ls /proc|grep ^[0-9]|sort -n);do echo -e "$i\t${STATE[$i]}\t${NAME[$i]}\t${TIME[$i]}";done|awk 'BEGIN {print "PID STATE NAME UPTIME"}/[00-23]\:[00-59]/{print}'|column -t
+for i in $(ls /proc|grep ^[0-9]|sort -n);
+do 
+echo -e "$i\t${STATE[$i]}\t${NAME[$i]}\t${TIME[$i]}";
+done|
+awk 'BEGIN {print "PID STATE NAME UPTIME"}/[00-23]\:[00-59]/{print}'|
+column -t;
 
-for i in $(ls /proc|grep ^[0-9]|sort -n)   # задаем значения $i равные всем файлам 
-                                           # начинающимся с цифры в каталоге /proc 
-echo -e "$i\t${STATE[$i]}\t${NAME[$i]}\t${TIME[$i]}"  # выводим значение из массива 
-                                                      # соответствующее параметрам номеру, 
-                                                      # состроянию, имени, и временизапуска процесса
-awk 'BEGIN {print "PID STATE NAME UPTIME"}/[00-23]\:[00-59]/{print}' # ловим вывод, задаем шапку 
-                                                                     # таблицы и выбираем все строки 
-                                                                     # в который имеется время
+for i in $(ls /proc|grep ^[0-9]|sort -n)   # задаем значения $i равные файлам начинающимся с цифры 
+                                           # в каталоге /proc 
+echo -e "$i\t${STATE[$i]}\t${NAME[$i]}\t${TIME[$i]}"  # выводим значения из массива для $i, 
+awk 'BEGIN {print "PID STATE NAME UPTIME"}/[00-23]\:[00-59]/{print}' # ловим вывод, задаем шапку и
+                                                                     # выбираем все строки 
+                                                                     # в которых имеется время
 
 column -t   # задаем формат вывода в виде таблицы
 ```
