@@ -23,7 +23,7 @@ PROC/SYSRQ-TRIGGER - общение с ядром
 #### рабочие наброски   
 ```
 PID and NAME
-head -1 -q 2>/dev/null $(find /proc/*/sched 2>/dev/null)|cut -d, -f1|awk -F\( '{print $2" \t "$1}'|sort -n|uniq
+head -1 -q 2>/dev/null $(find /proc/*/sched 2>/dev/null)|sed -e 's/\ (/\ /g'|sed -e 's/,/\ /g'
 grep State /proc/[$PID]/status|awk '{print $2" "$3}'   # выведет состояние процесса
 stat /proc/[$PID]|awk '/Modify/{print $2" "$3}'|cut -d: -f 1-2 # выведет время создания PID'a
 
@@ -31,4 +31,5 @@ stat /proc/[$PID]|awk '/Modify/{print $2" "$3}'|cut -d: -f 1-2 # выведет 
 #ll /proc/[$PID]/exe|awk '{print $11}'                  # выведет бинарник для $PID  
 #head /proc/[$PID]/shed|awk '{print $1}'                # выведет имя программы для пустых 'exe'
 ```
+
 
