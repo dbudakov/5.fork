@@ -2,7 +2,7 @@ Beginner
 1. [Updating ulimit on a running Linux process(gbl)](https://www.gregchapple.com/blog/updating-ulimit-on-running-linux-process/)  
 2. [proc manage](http://rus-linux.net/MyLDP/proc/processes-in-Linux.html)  
 3. [/proc fs](http://manpages.ubuntu.com/manpages/precise/ru/man5/proc.5.html)  
-
+4. [/proc/pid/stat - fields/column](https://web.archive.org/web/20130302063336/http://www.lindevdoc.org/wiki//proc/pid/stat)  
 
 Advanced  
 1. [Основы работы с сигналами](https://www.ibm.com/developerworks/ru/library/l-signals_1/index.html)  
