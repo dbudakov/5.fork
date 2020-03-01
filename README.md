@@ -60,9 +60,9 @@ Time() {                                         # полное время ис�
  fi
  }
 utime=$(awk '/[0-9]/{print $14}' /proc/$i/stat 2>/dev/null)  # эти параметры снимают показания
-stime=$(awk '/[0-9]/{print $15}' /proc/$i/stat 2>/dev/null)  # времени использования 
-cutime=$(awk '/[0-9]/{print $16}' /proc/$i/stat 2>/dev/null) # процессора 
-cstime=$(awk '/[0-9]/{print $17}' /proc/$i/stat 2>/dev/null) #
+stime=$(awk '/[0-9]/{print $15}' /proc/$i/stat 2>/dev/null)  # времени использования процессора
+cutime=$(awk '/[0-9]/{print $16}' /proc/$i/stat 2>/dev/null) # ```значения полей можно узнать по ссылке пред скриптом```
+cstime=$(awk '/[0-9]/{print $17}' /proc/$i/stat 2>/dev/null) # 
 if [ -z $utime ] 2>/dev/null                                 # если строка пустая то помечаем как FALSE
   then echo "FALSE"               
   else        
