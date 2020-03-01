@@ -17,8 +17,9 @@
 +2 балла все скрипты  
 
 ## Решение  
-
-
+чистый скрипт лежит [здесь](https://github.com/dbudakov/5.fork/blob/master/script/custom_ps.sh)  
+значения полей в файле [/proc/pid/stat
+](https://web.archive.org/web/20130302063336/http://www.lindevdoc.org/wiki//proc/pid/stat)  
 ```shell
 #!/bin/bash 
 #custom `ps ax`
