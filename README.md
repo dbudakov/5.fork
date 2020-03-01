@@ -23,8 +23,8 @@
 #!/bin/bash 
 #custom `ps ax`
 
-HZ=$(getconf CLK_TCK)                        # значения герц в секунду [значение в 10 меньше]
-#HZ=$(grep 'CONFIG_HZ=' /boot/config-$(uname -r)|awk -F= '{print $2}')  # герц в секунду из файла
+HZ=$(getconf CLK_TCK)                        # значение `герц в секунду` [значение в 10 меньше]
+#HZ=$(grep 'CONFIG_HZ=' /boot/config-$(uname -r)|awk -F= '{print $2}')  # значение `герц в секунду` из файла
 Sort() {                                     # функция поиска и сортировки PID
  ls /proc|                                    
  grep ^[0-9]|                                # выбираем только строки начинающиеся с цифры
