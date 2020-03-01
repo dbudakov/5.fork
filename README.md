@@ -130,28 +130,28 @@ if [ -z $utime ] 2>/dev/null                                 # если стро
 fi
 }
 
-Main() {                                                     # функция снятия значений и записи их в соответствующие массивы
-        for i in $(Sort)                                     #         
-        do
-          NAME[i]=$(Name)
+Main() {                                                     # функция снятия значений и 
+        for i in $(Sort)                                     # записи их в соответствующие массивы
+        do                                                   # по всем каждому PID, значения которы
+          NAME[i]=$(Name)                                    # выдает функция Sort()
           STATE[i]=$(state)
           TIME[i]=$(Time)
         done
 }
 
-Head() {
-        awk 'BEGIN {print "PID STATE NAME UPTIME"}{print}'|
+Head() {                                                     # шапка вывода и разбивка на таблицу уже готового
+        awk 'BEGIN {print "PID STATE NAME UPTIME"}{print}'|  # результата скрипта
         column -t
         }
 
-Show() {
-        for i in $(Sort)
-        do
-                echo -e "$i\t${STATE[$i]}\t${NAME[$i]}\t${TIME[$i]}"|
-                awk '/[A-Z]/{print $0}'
-        done|Head
+Show() {                                                                # формирование таблици значений для каждого PID
+        for i in $(Sort)                                                # повторно пробегаясь по Sort() выводит значения    
+        do                                                              # из массивов
+                echo -e "$i\t${STATE[$i]}\t${NAME[$i]}\t${TIME[$i]}"|   
+                awk '/[A-Z]/{print $0}'                                 # выборка только строк в которых присутствует  запись состояния в виде одной заглавной буквы
+        done|Head                                                       # передача результата на Head()
 }
 
-Main
-Show
+Main  # вызов функций 
+Show  # вызов функций 
 ```
