@@ -79,64 +79,63 @@ column -t   # задает формат вывода в виде таблицы
 #!/bin/bash
 #custom `ps ax`
 
-HZ=$(getconf CLK_TCK)
-#HZ=$(grep 'CONFIG_HZ=' /boot/config-$(uname -r)|awk -F= '{print $2}')
-Sort() {
- ls /proc|
- grep ^[0-9]|
- sort -n
+HZ=$(getconf CLK_TCK)                        # значения герц в секунду [значение в 10 меньше]
+#HZ=$(grep 'CONFIG_HZ=' /boot/config-$(uname -r)|awk -F= '{print $2}')  # герц в секунду из файла
+Sort() {                                     # функция поиска и сортировки PID
+ ls /proc|                                    
+ grep ^[0-9]|                                # выбираем только строки начинающиеся с цифры
+ sort -n                                     # сортируем по возрастанию
 }
 
-Name() {
- head -1 -q /proc/$i/sched 2>/dev/null|
- sed -e 's/\ (/\ /g'|
- sed -e 's/,/\ /g'|
- awk '{print $1}'
+Name() {                                     # имя процесса
+ head -1 -q /proc/$i/sched 2>/dev/null|      # выводим первую строку, без вывода имени файла /proc/[PID]/sched
+ sed -e 's/\ (/\ /g'|                        # заменяем знаки " (" на [пробел]
+ sed -e 's/,/\ /g'|                          # заменяем запятые на [пробел]
+ awk '{print $1}'                            # выводим первое поле
 }
 
-state() {
- grep State /proc/$i/status 2>/dev/null |
- awk '{print $2}'
+state() {                                    # состояние процесса
+ grep State /proc/$i/status 2>/dev/null |    # для каждой $i,он же PID, делаем выборку строки сострояния из файла /proc/[PID]/status
+ awk '{print $2}'                            # делаем выборку второго поля, что является состоянием процесса
 }
 
-Time() {                                                      
- sim() {
- if [ $utime -eq 0 ]
- then
-  echo "0:0"
-  else
-    a=$(echo "scale=10;($utime+$stime+$cutime+$cstime)/$HZ/60"|bc -l|sed 's/^\./0./')
-    d=$(echo $a|cut -d. -f 1)
-    f=$(echo "$(echo "($a-$d)*60"|bc|sed 's/^\./0./'|cut -c 1-2)")
-    if [[ "$f" == *[.]  ]]
-      then f=$(echo $f|sed 's/\./0/'|rev)
+Time() {                                         # полное время использования процессора процессом   
+ sim() {                                         # в функцию попадают только значения времени                      
+ if [ $utime -eq 0 ]                             # если время процесса использования процессора 
+  then                                           # равно нулю то заворачиваем и выводи 0:0
+  echo "0:0"  
+  else                                          
+    a=$(echo "scale=10;($utime+$stime+$cutime+$cstime)/$HZ/60"|bc -l|sed 's/^\./0./') # получаем общее время использования процессора и переводим в минуты(изначально значение в количестве герц[герц в секунду])
+    d=$(echo $a|cut -d. -f 1) # отрезае значение до точки это минуты времени использования процессора
+    f=$(echo "$(echo "($a-$d)*60"|bc|sed 's/^\./0./'|cut -c 1-2)")  # вычитаем из общего времени минуты остается значение секунд в десятичном веди, умножаем на 60 переводя его в секунды, в значениях начинающиющихся с "." меняем "." на 0, отрезаем первые два знака
+    if [[ "$f" == *[.]  ]]                   # заворачиваем значения которые заканчиваются на ".", например если это была десятичная дробь пяти с половиной секунд и мы отрезали первые два знака
+       then f=$(echo $f|sed 's/\./0/'|rev)   # меняем "."  на 0 и переворачиваем значение через rev, получая читаемый вид
     fi
-  echo "$d:$f"
+  echo "$d:$f"                               # выводим значение минут и секунд времени использования процессора
  fi
  }
-utime=$(awk '/[0-9]/{print $14}' /proc/$i/stat 2>/dev/null)
-stime=$(awk '/[0-9]/{print $15}' /proc/$i/stat 2>/dev/null)
-cutime=$(awk '/[0-9]/{print $16}' /proc/$i/stat 2>/dev/null)
-cstime=$(awk '/[0-9]/{print $17}' /proc/$i/stat 2>/dev/null)
-if [ -z $utime ] 2>/dev/null
+utime=$(awk '/[0-9]/{print $14}' /proc/$i/stat 2>/dev/null)  # эти параметры снимают показания
+stime=$(awk '/[0-9]/{print $15}' /proc/$i/stat 2>/dev/null)  # времени использования 
+cutime=$(awk '/[0-9]/{print $16}' /proc/$i/stat 2>/dev/null) # процессора 
+cstime=$(awk '/[0-9]/{print $17}' /proc/$i/stat 2>/dev/null) #
+if [ -z $utime ] 2>/dev/null                                 # если строка пустая то помечаем как FALSE
   then echo "FALSE"               
-  else
-    if [ $uptime -eq "0" ] 2>/dev/null
-     then echo "0:0"
-     else
-       k=$(sim)
+  else        
+    if [ $uptime -eq "0" ] 2>/dev/null                       # также помечаем все строки который  
+     then echo "0:0"                                         # использовали время процессора близкое 
+     else                                                    # к нулю
+       k=$(sim)                                              # все остальные процессы пускаем в sim()
        echo $k
     fi
 fi
 }
 
-Main() {
-
-        for i in $(Sort)
+Main() {                                                     # функция снятия значений и записи их в соответствующие массивы
+        for i in $(Sort)                                     #         
         do
-        NAME[i]=$(Name)
-        STATE[i]=$(state)
-        TIME[i]=$(Time)
+          NAME[i]=$(Name)
+          STATE[i]=$(state)
+          TIME[i]=$(Time)
         done
 }
 
