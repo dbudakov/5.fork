@@ -105,3 +105,5 @@ Show  # вызов функций
 kill -l # вывести список сигналов  
 kill -0 <PID> # проверяет наличие PID, если процесс есть, код возврата "0"  
 strace -e open ps ax - quest calls command  
+### Дополнительно
+[Move a running process to screen](https://www.linkedin.com/pulse/move-running-process-screen-bruce-werdschinski/)  
